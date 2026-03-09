@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polo Club - Current Listings | The Edmund Bogen Team</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+    }
+    .header {
+      border-bottom: 4px solid #00a8e1;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      color: #1a3e5c;
+      font-size: 2.5em;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .header-subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+    .summary-stats {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .summary-stat {
+      background: #f8fbff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      border-left: 4px solid #00a8e1;
+    }
+    .summary-stat-label {
+      color: #666;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .summary-stat-value {
+      color: #1a3e5c;
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .listing-card {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-left: 4px solid #00a8e1;
+      padding: 25px 25px 25px 30px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .listing-card:hover {
+      border-left-color: #1a3e5c;
+      box-shadow: 0 4px 20px rgba(26, 62, 92, 0.15);
+      transform: translateX(5px);
+    }
+    .listing-card.waterfront { border-left-color: #28a745; }
+    .listing-address {
+      color: #1a3e5c;
+      font-size: 1.4em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .listing-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.7em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 3px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    .badge-waterfront { background: #d4edda; color: #155724; }
+    .badge-type { background: #f8d7da; color: #721c24; }
+    .badge-price-reduced { background: #fff3cd; color: #856404; }
+    .badge-new-listing { background: #cce5ff; color: #004085; }
+    .badge-back-on-market { background: #d1ecf1; color: #0c5460; }
+    .listing-price {
+      color: #000000;
+      font-size: 2em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+    .listing-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .listing-detail-item { display: flex; flex-direction: column; }
+    .listing-detail-label {
+      color: #666;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 5px;
+    }
+    .listing-detail-value {
+      color: #1a3e5c;
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    .listing-mls {
+      display: inline-block;
+      background: #f4f4f4;
+      color: #1a3e5c;
+      padding: 8px 15px;
+      font-size: 0.85em;
+      font-weight: 500;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+    .listing-sub {
+      color: #666;
+      font-size: 0.85em;
+      margin-top: 5px;
+    }
+    .view-listing-btn {
+      background: #00a8e1;
+      color: white;
+      padding: 14px 30px;
+      text-decoration: none;
+      font-size: 0.95em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-block;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+    .view-listing-btn:hover {
+      background: #0088b8;
+      transform: translateY(-2px);
+    }
+    .listing-dom {
+      display: block;
+      color: #666;
+      font-size: 0.85em;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .back-button {
+      background: #1a3e5c;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-size: 0.9em;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-block;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    .back-button:hover { background: #0d1f2d; }
+    @media (max-width: 768px) {
+      .listing-card { grid-template-columns: 1fr; }
+      .listing-cta { text-align: center; }
+      .summary-stats { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <a href="polo-club-newsletter.html" class="back-button">&larr; Back to Newsletter</a>
+
+    <div class="header">
+      <p style="color: #dc3545; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Special Report | March 9, 2026</p>
+      <h1>Polo Club - Available Listings</h1>
+      <p class="header-subtitle">14 Active Listings</p>
+    </div>
+
+    <div class="summary-stats">
+      <div class="summary-stat">
+        <div class="summary-stat-label">Price Range</div>
+        <div class="summary-stat-value">$500K - $2.5M</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Active Listings</div>
+        <div class="summary-stat-value">14</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Property Types</div>
+        <div class="summary-stat-value">Single Family / Condo</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Community</div>
+        <div class="summary-stat-value">Boca Raton</div>
+      </div>
+    </div>
+
+    <p style="color: #666; font-size: 0.95em; margin-bottom: 25px; line-height: 1.6;">Polo Club is a prestigious gated community in Boca Raton featuring resort-style amenities, championship golf, tennis, and a vibrant social calendar. Below are the current active listings. Contact Dina Ulrich for private showings or detailed market analysis.</p>
+
+    <div style="text-align: center; margin: 30px 0; padding: 30px; background: #f8fbff; border-radius: 8px; border: 1px solid #e0e8f0;">
+      <p style="color: #1a3e5c; font-size: 1.2em; font-weight: 600; margin-bottom: 10px;">View All Polo Club Listings</p>
+      <p style="color: #666; font-size: 0.9em; margin-bottom: 20px;">Browse the full collection of available homes at Polo Club on our website</p>
+      <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">Search Polo Club Listings</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e8e8e8;">
+      <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Questions about Polo Club?</p>
+      <a href="https://bogenhomes.com/agents/dina-ulrich/" target="_blank" style="display: inline-block; background: #1a3e5c; color: white; padding: 14px 40px; text-decoration: none; font-size: 1em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px;">Contact Dina Ulrich</a>
+      <p style="color: #999; font-size: 0.8em; margin-top: 20px;">Dina Ulrich | The Edmund Bogen Team | Douglas Elliman Real Estate | (561) 769-8000</p>
+    </div>
+
+  </div>
+</body>
+</html>
