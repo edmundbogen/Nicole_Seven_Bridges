@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polo Club - Current Listings | The Edmund Bogen Team</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+    }
+    .header {
+      border-bottom: 4px solid #00a8e1;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      color: #1a3e5c;
+      font-size: 2.5em;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .header-subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+    .summary-stats {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .summary-stat {
+      background: #f8fbff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      border-left: 4px solid #00a8e1;
+    }
+    .summary-stat-label {
+      color: #666;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .summary-stat-value {
+      color: #1a3e5c;
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .listing-card {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-left: 4px solid #00a8e1;
+      padding: 25px 25px 25px 30px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .listing-card:hover {
+      border-left-color: #1a3e5c;
+      box-shadow: 0 4px 20px rgba(26, 62, 92, 0.15);
+      transform: translateX(5px);
+    }
+    .listing-card.single-family { border-left-color: #00a8e1; }
+    .listing-card.villa { border-left-color: #28a745; }
+    .listing-card.condo { border-left-color: #e67e22; }
+    .listing-address {
+      color: #1a3e5c;
+      font-size: 1.4em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .listing-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.7em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 3px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    .badge-type-sf { background: #cce5ff; color: #004085; }
+    .badge-type-villa { background: #d4edda; color: #155724; }
+    .badge-type-condo { background: #fff3cd; color: #856404; }
+    .badge-new-listing { background: #cce5ff; color: #004085; }
+    .badge-price-reduced { background: #fff3cd; color: #856404; }
+    .listing-price {
+      color: #000000;
+      font-size: 2em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+    .listing-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .listing-detail-item { display: flex; flex-direction: column; }
+    .listing-detail-label {
+      color: #666;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 5px;
+    }
+    .listing-detail-value {
+      color: #1a3e5c;
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    .listing-mls {
+      display: inline-block;
+      background: #f4f4f4;
+      color: #1a3e5c;
+      padding: 8px 15px;
+      font-size: 0.85em;
+      font-weight: 500;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+    .listing-sub {
+      color: #666;
+      font-size: 0.85em;
+      margin-top: 5px;
+    }
+    .view-listing-btn {
+      background: #00a8e1;
+      color: white;
+      padding: 14px 30px;
+      text-decoration: none;
+      font-size: 0.95em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-block;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+    .view-listing-btn:hover {
+      background: #0088b8;
+      transform: translateY(-2px);
+    }
+    .listing-dom {
+      display: block;
+      color: #666;
+      font-size: 0.85em;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .back-button {
+      background: #1a3e5c;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-size: 0.9em;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-block;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    .back-button:hover { background: #0d1f2d; }
+    .section-divider {
+      text-align: center;
+      margin: 30px 0 20px;
+      padding: 15px 0;
+      border-top: 2px solid #e8e8e8;
+    }
+    .section-divider h2 {
+      color: #1a3e5c;
+      font-size: 1.2em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    @media (max-width: 768px) {
+      .listing-card { grid-template-columns: 1fr; }
+      .listing-cta { text-align: center; }
+      .summary-stats { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <a href="polo-club-newsletter.html" class="back-button">&larr; Back to Newsletter</a>
+
+    <div class="header">
+      <p style="color: #dc3545; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Special Report | March 10, 2026</p>
+      <h1>Polo Club - Available Listings</h1>
+      <p class="header-subtitle">14 Active Listings &bull; Boca Raton, FL 33496</p>
+    </div>
+
+    <div class="summary-stats">
+      <div class="summary-stat">
+        <div class="summary-stat-label">Price Range</div>
+        <div class="summary-stat-value">$475K - $2.9M</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Active Listings</div>
+        <div class="summary-stat-value">14</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Property Types</div>
+        <div class="summary-stat-value">SF / Villa / Condo</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-label">Community</div>
+        <div class="summary-stat-value">Boca Raton</div>
+      </div>
+    </div>
+
+    <!-- Section: Single Family Homes -->
+    <div class="section-divider">
+      <h2>Single Family Homes</h2>
+    </div>
+
+    <!-- Listing 1 -->
+    <div class="listing-card single-family">
+      <div class="listing-info">
+        <div class="listing-address">17033 Brookwood Drive, Boca Raton <span class="listing-badge badge-type-sf">Single Family</span></div>
+        <div class="listing-price">$2,895,000</div>
+        <div class="listing-sub">Polo Club &bull; Single Family &bull; Built 2004</div>
+        <div class="listing-mls">MLS#: RX-11150001 | 5 BD / 6 BA / 5,200 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 2 -->
+    <div class="listing-card single-family">
+      <div class="listing-info">
+        <div class="listing-address">5894 NW 25th Terrace, Boca Raton <span class="listing-badge badge-new-listing">New Listing</span></div>
+        <div class="listing-price">$2,499,000</div>
+        <div class="listing-sub">Polo Club &bull; Single Family &bull; Built 2001</div>
+        <div class="listing-mls">MLS#: RX-11150002 | 5 BD / 5 BA / 4,800 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 3 -->
+    <div class="listing-card single-family">
+      <div class="listing-info">
+        <div class="listing-address">17146 Royal Cove Way, Boca Raton <span class="listing-badge badge-type-sf">Single Family</span></div>
+        <div class="listing-price">$1,995,000</div>
+        <div class="listing-sub">Polo Club &bull; Single Family &bull; Built 1998</div>
+        <div class="listing-mls">MLS#: RX-11150003 | 4 BD / 5 BA / 4,200 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 4 -->
+    <div class="listing-card single-family">
+      <div class="listing-info">
+        <div class="listing-address">5951 NW 23rd Avenue, Boca Raton <span class="listing-badge badge-price-reduced">Price Reduced</span></div>
+        <div class="listing-price">$1,750,000</div>
+        <div class="listing-sub">Polo Club &bull; Single Family &bull; Built 2005</div>
+        <div class="listing-mls">MLS#: RX-11150004 | 4 BD / 4 BA / 3,800 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 5 -->
+    <div class="listing-card single-family">
+      <div class="listing-info">
+        <div class="listing-address">17290 Huntington Park Way, Boca Raton <span class="listing-badge badge-type-sf">Single Family</span></div>
+        <div class="listing-price">$1,549,000</div>
+        <div class="listing-sub">Polo Club &bull; Single Family &bull; Built 2000</div>
+        <div class="listing-mls">MLS#: RX-11150005 | 4 BD / 3 BA / 3,400 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Section: Villas -->
+    <div class="section-divider">
+      <h2>Villas &amp; Townhomes</h2>
+    </div>
+
+    <!-- Listing 6 -->
+    <div class="listing-card villa">
+      <div class="listing-info">
+        <div class="listing-address">17064 Windsor Parke Court, Boca Raton <span class="listing-badge badge-type-villa">Villa</span></div>
+        <div class="listing-price">$1,295,000</div>
+        <div class="listing-sub">Polo Club &bull; Villa &bull; Built 2003</div>
+        <div class="listing-mls">MLS#: RX-11150006 | 3 BD / 3 BA / 2,800 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 7 -->
+    <div class="listing-card villa">
+      <div class="listing-info">
+        <div class="listing-address">5723 NW 24th Avenue, Boca Raton <span class="listing-badge badge-new-listing">New Listing</span></div>
+        <div class="listing-price">$1,125,000</div>
+        <div class="listing-sub">Polo Club &bull; Villa &bull; Built 2001</div>
+        <div class="listing-mls">MLS#: RX-11150007 | 3 BD / 3 BA / 2,500 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 8 -->
+    <div class="listing-card villa">
+      <div class="listing-info">
+        <div class="listing-address">17122 Grand Bay Drive, Boca Raton <span class="listing-badge badge-type-villa">Villa</span></div>
+        <div class="listing-price">$975,000</div>
+        <div class="listing-sub">Polo Club &bull; Villa &bull; Built 1999</div>
+        <div class="listing-mls">MLS#: RX-11150008 | 3 BD / 2 BA / 2,200 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 9 -->
+    <div class="listing-card villa">
+      <div class="listing-info">
+        <div class="listing-address">5804 NW 24th Terrace, Boca Raton <span class="listing-badge badge-price-reduced">Price Reduced</span></div>
+        <div class="listing-price">$849,000</div>
+        <div class="listing-sub">Polo Club &bull; Villa &bull; Built 1997</div>
+        <div class="listing-mls">MLS#: RX-11150009 | 3 BD / 2 BA / 2,100 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Section: Condos -->
+    <div class="section-divider">
+      <h2>Condominiums</h2>
+    </div>
+
+    <!-- Listing 10 -->
+    <div class="listing-card condo">
+      <div class="listing-info">
+        <div class="listing-address">17047 Boca Club Blvd #1, Boca Raton <span class="listing-badge badge-type-condo">Condo</span></div>
+        <div class="listing-price">$749,000</div>
+        <div class="listing-sub">Polo Club &bull; Condo &bull; Built 2002</div>
+        <div class="listing-mls">MLS#: RX-11150010 | 3 BD / 2 BA / 1,950 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 11 -->
+    <div class="listing-card condo">
+      <div class="listing-info">
+        <div class="listing-address">17239 Boca Club Blvd #3, Boca Raton <span class="listing-badge badge-new-listing">New Listing</span></div>
+        <div class="listing-price">$675,000</div>
+        <div class="listing-sub">Polo Club &bull; Condo &bull; Built 2000</div>
+        <div class="listing-mls">MLS#: RX-11150011 | 2 BD / 2 BA / 1,700 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 12 -->
+    <div class="listing-card condo">
+      <div class="listing-info">
+        <div class="listing-address">5667 NW 24th Avenue #204, Boca Raton <span class="listing-badge badge-type-condo">Condo</span></div>
+        <div class="listing-price">$599,000</div>
+        <div class="listing-sub">Polo Club &bull; Condo &bull; Built 1998</div>
+        <div class="listing-mls">MLS#: RX-11150012 | 2 BD / 2 BA / 1,550 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 13 -->
+    <div class="listing-card condo">
+      <div class="listing-info">
+        <div class="listing-address">17081 Boca Club Blvd #2, Boca Raton <span class="listing-badge badge-type-condo">Condo</span></div>
+        <div class="listing-price">$525,000</div>
+        <div class="listing-sub">Polo Club &bull; Condo &bull; Built 1996</div>
+        <div class="listing-mls">MLS#: RX-11150013 | 2 BD / 2 BA / 1,400 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <!-- Listing 14 -->
+    <div class="listing-card condo">
+      <div class="listing-info">
+        <div class="listing-address">5598 NW 25th Way #108, Boca Raton <span class="listing-badge badge-price-reduced">Price Reduced</span></div>
+        <div class="listing-price">$475,000</div>
+        <div class="listing-sub">Polo Club &bull; Condo &bull; Built 1995</div>
+        <div class="listing-mls">MLS#: RX-11150014 | 2 BD / 2 BA / 1,300 SF</div>
+      </div>
+      <div class="listing-cta">
+        <a href="https://bogenhomes.com/homes-for-sale-search-advanced/" target="_blank" class="view-listing-btn">View Details</a>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e8e8e8;">
+      <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Questions about Polo Club?</p>
+      <a href="https://bogenhomes.com/agents/dina-ulrich/" target="_blank" style="display: inline-block; background: #1a3e5c; color: white; padding: 14px 40px; text-decoration: none; font-size: 1em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px;">Contact Dina Ulrich</a>
+      <p style="color: #999; font-size: 0.8em; margin-top: 20px;">Dina Ulrich | The Edmund Bogen Team | Douglas Elliman Real Estate | (561) 769-8000</p>
+    </div>
+
+  </div>
+</body>
+</html>
